@@ -1,7 +1,7 @@
 "use client"
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { FaFacebookSquare, FaInstagram, FaGithubSquare, FaLinkedin } from "react-icons/fa";
 
 export default function Home() {
@@ -9,6 +9,7 @@ export default function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [fileUrl, setFileUrl] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const fileInputRef = useRef(null)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0] || null;
@@ -47,9 +48,45 @@ export default function Home() {
     }
   };
 
+  // COPY VALUE START
+
+  const copyToClipboard = (value: string) => {
+    navigator.clipboard.writeText(value)
+    .then(() => {
+      alert('Copied to clipboard');
+    })
+    .catch((err) => {
+      console.log('Failed to copy', err)
+    })
+
+    console.log(copyToClipboard)
+  }
+  // COPY VALUE END
+
+
+  // REFRESH FORMS or CLEAR INPUT AND COPY URL START
+
+  const handleFileChanges = (event) => {
+    const file = event.target.files[0]
+    if(file) {
+      const url = URL.createObjectURL(file)
+      setFileUrl(url)
+    }
+  }
+
+  const handleCancel = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+
+    window.location.reload()
+  }
+
+  // REFRESH FORMS or CLEAR INPUT AND COPY URL END
+
   return (
     <div className="flex justify-center items-center h-screen bg-slate-300">
-      <div className="border w-[440px] h-[440px] bg-white rounded-lg shadow-xl">
+      <div className="border w-[440px] h-[460px] bg-white rounded-lg shadow-xl">
         <div className="space-y-3 pt-5 mx-5">
           <div>
             <h1 className="font-sans font-bold">Weee Shareee</h1>
@@ -58,7 +95,7 @@ export default function Home() {
           
 
           {/* UPLOADING SECTION */}
-          <form onSubmit={handleUpload} className="space-y-3">
+          <form onSubmit={handleUpload} className="space-y-6">
 
             <div className="flex items-center justify-center w-full">
                 <label htmlFor="dropzone-file" className="flex flex-col group items-center justify-center w-full h-56 border-2 border-gray-300 border-dashed hover:border-orange-500 hover:transition hover:delay-150 hover:ease-in-out hover:duration-300 rounded-lg cursor-pointer bg-gray-50 ">
@@ -86,7 +123,7 @@ export default function Home() {
                   </div>
                 )
               }
-              <button className="text-sm border px-8 py-1 rounded-md hover:text-orange-700 hover:bg-orange-400 hover:transition hover:delay-75 hover:ease-in-out hover:duration-300">
+              <button onClick={() => copyToClipboard(fileUrl)} value={fileUrl} className="text-sm border px-8 py-1 rounded-md hover:text-orange-700 hover:bg-orange-400 hover:transition hover:delay-75 hover:ease-in-out hover:duration-300">
                 COPY URL
               </button>
             </div>
