@@ -133,7 +133,7 @@ export default function Main() {
             <div className="flex items-center space-x-1">
               {
                 fileUrl &&
-                <input type="text" className="w-full truncate text-sm font-mono text-slate-500 outline-none cursor-default py-1" value={`/download/uploads/${fileUrl}`}/>
+                <input type="text" className="w-full truncate text-sm font-mono text-slate-500 outline-none cursor-default py-1" value={`${fileUrl}`}/>
               }
               {
                 error && (

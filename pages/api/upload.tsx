@@ -93,7 +93,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.log(`Normalized File Path: ${String.raw`${normalizedFilePath}`}`);
 
     // Construct the file URL
-    const fileUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/download/uploads/${fileName}`;
+    const fileUrl = `${process.env.NEXT_PUBLIC_BASE_URL}${fileName}`;
     console.log('Generated fileUrl:', fileUrl);
 
     return res.status(200).json({ message: 'File uploaded successfully', fileUrl });

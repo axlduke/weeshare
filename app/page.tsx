@@ -1,10 +1,11 @@
-import Download from "./components/download";
-import Main from "./components/main";
-
-
 import Link from "next/link";
-const Home: React.FC = () => {
-  return <Main />;
-};
+import Download from "./components/download";
 
-export default Home;
+export default function Home() {
+  return (
+    <main>
+      <Link href={Download}>
+      </Link>
+    </main>
+  )
+}
