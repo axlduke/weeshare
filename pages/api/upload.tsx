@@ -37,6 +37,7 @@
 // }
 
 import { IncomingForm } from 'formidable';
+import { NextApiRequest, NextApiResponse } from 'next';
 import fs from 'fs';
 import path from 'path';
 
@@ -55,7 +56,7 @@ export const config = {
   },
 };
 
-export default function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const form = new IncomingForm({
     uploadDir, // Directory to store uploaded files
     keepExtensions: true, // Keep the file extension
@@ -92,7 +93,7 @@ export default function handler(req, res) {
     console.log(`Normalized File Path: ${String.raw`${normalizedFilePath}`}`);
 
     // Construct the file URL
-    const fileUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/uploads/${fileName}`;
+    const fileUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/download/uploads/${fileName}`;
     console.log('Generated fileUrl:', fileUrl);
 
     return res.status(200).json({ message: 'File uploaded successfully', fileUrl });
